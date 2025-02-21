@@ -2,18 +2,21 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
-using tp4p1.Data;
+using tp4p1.Models.EntityFramework;
 
 #nullable disable
 
 namespace tp4p1.Migrations
 {
-    [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [DbContext(typeof(FilmRatingsDBContext))]
+    [Migration("20250221132106_InitialMigration")]
+    partial class InitialMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -99,17 +102,17 @@ namespace tp4p1.Migrations
                         .HasColumnType("char(5)")
                         .HasColumnName("utl_cp");
 
-                    b.Property<DateTime>("DateCreation")
+                    b.Property<DateTime?>("DateCreation")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("date")
                         .HasColumnName("utl_datecreation")
                         .HasDefaultValueSql("now()");
 
-                    b.Property<float>("Latitude")
+                    b.Property<float?>("Latitude")
                         .HasColumnType("real")
                         .HasColumnName("utl_latitude");
 
-                    b.Property<float>("Longitude")
+                    b.Property<float?>("Longitude")
                         .HasColumnType("real")
                         .HasColumnName("utl_longitude");
 

@@ -5,15 +5,15 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
-using tp4p1.Data;
+using tp4p1.Models.EntityFramework;
 
 #nullable disable
 
 namespace tp4p1.Migrations
 {
-    [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250221104221_InitialMigration")]
-    partial class InitialMigration
+    [DbContext(typeof(FilmRatingsDBContext))]
+    [Migration("20250221133410_NewAnnotations1")]
+    partial class NewAnnotations1
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -102,25 +102,28 @@ namespace tp4p1.Migrations
                         .HasColumnType("char(5)")
                         .HasColumnName("utl_cp");
 
-                    b.Property<DateTime>("DateCreation")
+                    b.Property<DateTime?>("DateCreation")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("date")
                         .HasColumnName("utl_datecreation")
                         .HasDefaultValueSql("now()");
 
-                    b.Property<float>("Latitude")
+                    b.Property<float?>("Latitude")
                         .HasColumnType("real")
                         .HasColumnName("utl_latitude");
 
-                    b.Property<float>("Longitude")
+                    b.Property<float?>("Longitude")
                         .HasColumnType("real")
                         .HasColumnName("utl_longitude");
 
                     b.Property<string>("Mail")
+                        .IsRequired()
+                        .HasMaxLength(100)
                         .HasColumnType("varchar(100)")
                         .HasColumnName("utl_mail");
 
                     b.Property<string>("Mobile")
+                        .IsRequired()
                         .HasColumnType("char(10)")
                         .HasColumnName("utl_mobile");
 

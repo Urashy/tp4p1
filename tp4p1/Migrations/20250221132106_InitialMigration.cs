@@ -49,9 +49,9 @@ namespace tp4p1.Migrations
                     utl_cp = table.Column<string>(type: "char(5)", nullable: true),
                     utl_ville = table.Column<string>(type: "varchar(50)", nullable: true),
                     utl_pays = table.Column<string>(type: "varchar(50)", nullable: true, defaultValue: "France"),
-                    utl_latitude = table.Column<float>(type: "real", nullable: false),
-                    utl_longitude = table.Column<float>(type: "real", nullable: false),
-                    utl_datecreation = table.Column<DateTime>(type: "date", nullable: false, defaultValueSql: "now()")
+                    utl_latitude = table.Column<float>(type: "real", nullable: true),
+                    utl_longitude = table.Column<float>(type: "real", nullable: true),
+                    utl_datecreation = table.Column<DateTime>(type: "date", nullable: true, defaultValueSql: "now()")
                 },
                 constraints: table =>
                 {
