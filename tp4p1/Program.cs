@@ -1,10 +1,10 @@
 using Microsoft.EntityFrameworkCore;
-using tp4p1.Data;
+using tp4p1.Models.EntityFramework;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Ajouter la configuration du DbContext
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
+builder.Services.AddDbContext<FilmRatingsDBContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 // Ajouter les services au conteneur.
@@ -25,3 +25,4 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapControllers();
 app.Run();
+

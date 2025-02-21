@@ -14,8 +14,6 @@ namespace tp4p1.Models.EntityFramework
             NotesFilms = new HashSet<Notation>();
         }
 
-
-
         [Key]
         [Column("flm_id")]
         public int FilmId { get; set; }  // PK, auto-incrémenté

@@ -1,11 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using tp4p1.Models.EntityFramework;
 
-namespace tp4p1.Data
+namespace tp4p1.Models.EntityFramework
 {
-    public class ApplicationDbContext : DbContext
+    public class FilmRatingsDBContext : DbContext
     {
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
+        public FilmRatingsDBContext(DbContextOptions<FilmRatingsDBContext> options)
             : base(options)
         {
         }
@@ -125,3 +125,8 @@ builder.AddConsole());
         }
     }
 }
+
+//dotnet ef database drop --project tp4p1 --force
+//dotnet ef migrations remove --project tp4p1
+//dotnet ef migrations add InitialMigration --project tp4p1
+//dotnet ef database update --project tp4p1
