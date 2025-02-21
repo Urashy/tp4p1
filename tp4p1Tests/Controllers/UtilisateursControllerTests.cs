@@ -108,6 +108,9 @@ namespace Tests
             Random rnd = new Random();
             int chiffre = rnd.Next(1, 1000000000);
 
+            string uniqueMail = "machin" + chiffre + "@gmail.com";
+
+
             Utilisateur userAtester = new Utilisateur
             {
                 Nom = "MACHIN",
