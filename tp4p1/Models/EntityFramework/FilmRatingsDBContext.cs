@@ -126,6 +126,8 @@ builder.AddConsole());
     }
 }
 
+//dotnet tool install --global dotnet-ef --version 8.0.11
+
 //dotnet ef database drop --project tp4p1 --force
 //dotnet ef migrations remove --project tp4p1
 //dotnet ef migrations add InitialMigration --project tp4p1

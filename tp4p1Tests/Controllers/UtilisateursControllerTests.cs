@@ -91,12 +91,12 @@ namespace Tests
             UtilisateursController controller = new UtilisateursController(dataRepository);
 
             // Act
-            var actionResult = await controller.GetUtilisateurByEmail("durand@gmail.net");
+            var actionResult = await controller.GetUtilisateurByEmail("clilleymd@last.fm");
 
             // Assert
             Assert.IsNotNull(actionResult.Value, "Le résultat de GetUtilisateurById() est null.");
 
-            var expectedUser = await context.Utilisateurs.FirstOrDefaultAsync(a => a.Mail == "durand@gmail.net");
+            var expectedUser = await context.Utilisateurs.FirstOrDefaultAsync(a => a.Mail == "clilleymd@last.fm");
             var actualUser = actionResult.Value;
 
             Assert.IsNotNull(expectedUser, "L'utilisateur attendu est null");
@@ -212,4 +212,5 @@ namespace Tests
         }
 
     }
+
 }
