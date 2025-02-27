@@ -175,7 +175,7 @@ namespace Tests
             var builder = new DbContextOptionsBuilder<FilmRatingsDBContext>()
                 .UseNpgsql("Server=localhost;port=5432;Database=dbtp4; uid=postgres; password=postgres;");
             await using var context = new FilmRatingsDBContext(builder.Options);
-            var controller = new UtilisateursController(context);
+            UtilisateursController controller = new UtilisateursController(dataRepository);
 
             Utilisateur userAtester = new Utilisateur
             {
