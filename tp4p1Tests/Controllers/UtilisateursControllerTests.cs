@@ -16,7 +16,6 @@ namespace Tests
     public class UtilisateursControllerTests
     {
 
-        UtilisateursController controller;
 
 
         [TestMethod()]
@@ -81,12 +80,12 @@ namespace Tests
             var controller = new UtilisateursController(context);
 
             // Act
-            var actionResult = await controller.GetUtilisateurByEmail("durand@gmail.net");
+            var actionResult = await controller.GetUtilisateurByEmail("clilleymd@last.fm");
 
             // Assert
             Assert.IsNotNull(actionResult.Value, "Le résultat de GetUtilisateurById() est null.");
 
-            var expectedUser = await context.Utilisateurs.FirstOrDefaultAsync(a => a.Mail == "durand@gmail.net");
+            var expectedUser = await context.Utilisateurs.FirstOrDefaultAsync(a => a.Mail == "clilleymd@last.fm");
             var actualUser = actionResult.Value;
 
             Assert.IsNotNull(expectedUser, "L'utilisateur attendu est null");
@@ -158,5 +157,49 @@ namespace Tests
                 Assert.Fail($"Le test a échoué avec l'erreur : {ex.Message}");
             }
         }
+        [TestMethod]
+        public async Task DeleteTest()
+        {
+            // Arrange
+            var builder = new DbContextOptionsBuilder<FilmRatingsDBContext>()
+                .UseNpgsql("Server=localhost;port=5432;Database=dbtp4; uid=postgres; password=postgres;");
+            await using var context = new FilmRatingsDBContext(builder.Options);
+            var controller = new UtilisateursController(context);
+
+            Utilisateur userAtester = new Utilisateur
+            {
+                Nom = "MACHIN",
+                Prenom = "Luc",
+                Mobile = "0606070809",
+                Mail = "lilia@gmail.com",
+                Pwd = "Toto1234!",
+                Rue = "Chemin de Bellevue",
+                CodePostal = "74940",
+                Ville = "Annecy-le-Vieux",
+                Pays = "France",
+                Latitude = null,
+                Longitude = null
+            };
+
+            // Ajout de l'utilisateur en base
+            context.Utilisateurs.Add(userAtester);
+            await context.SaveChangesAsync();
+
+            // Récupération de l'utilisateur ajouté
+            var userFromDb = await context.Utilisateurs.FirstOrDefaultAsync(u => u.Mail == "lilia@gmail.com");
+            Assert.IsNotNull(userFromDb, "L'utilisateur n'a pas été correctement inséré en base.");
+
+            // Act - Suppression de l'utilisateur
+            var actionResult = await controller.DeleteUtilisateur(userFromDb.UtilisateurId);
+
+            // Vérification que l'opération s'est bien passée
+            Assert.IsInstanceOfType(actionResult, typeof(NoContentResult), "La suppression devrait retourner NoContentResult.");
+
+            // Cleanup - Vérification que l'utilisateur n'existe plus
+            var deletedUser = await context.Utilisateurs.FirstOrDefaultAsync(u => u.Mail == "lilia@gmail.com");
+            Assert.IsNull(deletedUser, "L'utilisateur n'a pas été supprimé de la base de données.");
+        }
+
     }
+
 }

@@ -65,24 +65,23 @@ public class UtilisateursController : ControllerBase
         return NoContent();
     }
 
-    // POST: api/Utilisateurs
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(StatusCodes.Status409Conflict)]
-    public async Task<ActionResult<Utilisateur>> PostUtilisateur(Utilisateur utilisateur)
+    public async Task<ActionResult<Utilisateur>> PostUtilisateur(Utilisateur
+utilisateur)
     {
-        var existingUser = await _context.Utilisateurs
-            .FirstOrDefaultAsync(u => u.Mail == utilisateur.Mail);
-
-        if (existingUser != null)
+        if (!ModelState.IsValid)
         {
-            return Conflict(new { message = "Un utilisateur avec cet email existe déjà" });
+            return BadRequest(ModelState);
         }
-
         _context.Utilisateurs.Add(utilisateur);
         await _context.SaveChangesAsync();
-        return CreatedAtAction(nameof(GetUtilisateurById), new { id = utilisateur.UtilisateurId }, utilisateur);
+        return CreatedAtAction("GetUtilisateurById", new
+        {
+            id =
+        utilisateur.UtilisateurId
+        }, utilisateur);
     }
 
     // DELETE: api/Utilisateurs/5
