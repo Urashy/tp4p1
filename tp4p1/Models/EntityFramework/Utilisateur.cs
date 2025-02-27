@@ -42,7 +42,7 @@ namespace tp4p1.Models.EntityFramework
         [Column("utl_rue", TypeName = "varchar(200)")]
         public string? Rue { get; set; }
 
-        [RegularExpression(@"^0[0-9]{4}$", ErrorMessage = "Le cp doit contenir 5 chiffres")]
+        [RegularExpression(@"^\d{5}$", ErrorMessage = "Le cp doit contenir 5 chiffres")]
         [Column("utl_cp", TypeName = "char(5)")]
         public string? CodePostal { get; set; }
 
