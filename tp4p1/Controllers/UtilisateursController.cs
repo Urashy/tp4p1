@@ -11,17 +11,18 @@ public class UtilisateursController : ControllerBase
 {
     private readonly IDataRepository<Utilisateur> utilisateurManager;
     //private readonly FilmRatingsDBContext _context; 
+    private readonly IDataRepository<Utilisateur> dataRepository;
 
-    public UtilisateursController(IDataRepository<Utilisateur> userManager)
+    public UtilisateursController(IDataRepository<Utilisateur> dataRepo)
     {
-        utilisateurManager = userManager;
+        dataRepository = dataRepo;
     }
 
     // GET: api/Utilisateurs 
     [HttpGet]
     public async Task<ActionResult<IEnumerable<Utilisateur>>> GetUtilisateurs()
     {
-        return utilisateurManager.GetAll();
+        return dataRepository.GetAll();
     }
 
     // GET: api/Utilisateurs/5 
@@ -32,14 +33,11 @@ public class UtilisateursController : ControllerBase
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult<Utilisateur>> GetUtilisateurById(int id)
     {
-        var utilisateur = utilisateurManager.GetById(id);
-        //var utilisateur = await _context.Utilisateurs.FindAsync(id); 
-
+        var utilisateur = await dataRepository.GetByIdAsync(id);
         if (utilisateur == null)
         {
             return NotFound();
         }
-
         return utilisateur;
     }
 
@@ -51,7 +49,7 @@ public class UtilisateursController : ControllerBase
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult<Utilisateur>> GetUtilisateurByEmail(string email)
         { 
-            var utilisateur = await utilisateurManager.GetByStringAsync(email); 
+            var utilisateur = await dataRepository.GetByStringAsync(email); 
             //var utilisateur = await _context.Utilisateurs.FirstOrDefaultAsync(e => e.Mail.ToUpper() == email.ToUpper()); 
  
             if (utilisateur == null) 
@@ -75,7 +73,7 @@ public async Task<IActionResult> PutUtilisateur(int id, Utilisateur utilisateur)
         return BadRequest();
     }
 
-    var userToUpdate = utilisateurManager.GetById(id);
+    var userToUpdate = await dataRepository.GetByIdAsync(id);
 
     if (userToUpdate == null)
     {
@@ -83,7 +81,7 @@ public async Task<IActionResult> PutUtilisateur(int id, Utilisateur utilisateur)
     }
     else
     {
-        utilisateurManager.UpdateAsync(userToUpdate.Value, utilisateur);
+        await dataRepository.UpdateAsync(userToUpdate, utilisateur);
         return NoContent();
     }
 }
@@ -100,7 +98,7 @@ public async Task<ActionResult<Utilisateur>> PostUtilisateur(Utilisateur utilisa
         return BadRequest(ModelState);
     }
 
-    utilisateurManager.AddAsync(utilisateur);
+        await dataRepository.AddAsync(utilisateur);
 
     return CreatedAtAction("GetById", new { id = utilisateur.UtilisateurId }, utilisateur); // GetById : nom de l’action 
 }
@@ -111,12 +109,12 @@ public async Task<ActionResult<Utilisateur>> PostUtilisateur(Utilisateur utilisa
 [ProducesResponseType(StatusCodes.Status404NotFound)]
 public async Task<IActionResult> DeleteUtilisateur(int id)
 {
-    var utilisateur = utilisateurManager.GetById(id);
+    var utilisateur = await dataRepository.GetByIdAsync(id);
     if (utilisateur == null)
     {
         return NotFound();
     }
-    utilisateurManager.DeleteAsync(utilisateur.Value);
+    await dataRepository.DeleteAsync(utilisateur);
     return NoContent();
 } 
 //private bool UtilisateurExists(int id) 
